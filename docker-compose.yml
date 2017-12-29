@@ -1,7 +1,19 @@
 version: '3'
 services:
+  php:
+    build: .
+    container_name: webcom-php
+    ports:
+      - 80:80
+    volumes:
+      - .:/var/www/html
+    networks:
+      - backend
+    hostname: webcom
+
   mysql:
     image: mysql:8
+    container_name: webcom-db
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
