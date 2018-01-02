@@ -7,11 +7,11 @@ services:
       - 80:80
     volumes:
       - .:/var/www/html
-    networks:
-      - backend
     hostname: webcom
+    depends_on:
+      - db
 
-  mysql:
+  db:
     image: mysql:8
     container_name: webcom-db
     environment:
@@ -24,13 +24,7 @@ services:
       - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
     ports:
       - "${MYSQL_PORT}:3306"
-    networks:
-      - backend
-
-networks:
-  backend:
-    driver: "bridge"
 
 volumes:
-  postgres:
+  mysql:
     driver: "local"
