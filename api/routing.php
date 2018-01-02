@@ -7,6 +7,7 @@
  * Date: 2018/01/03
  * Time: 1:27
  */
+
 require 'database.php';
 require 'http.php';
 
@@ -23,11 +24,7 @@ if ($raw_id != null && !$id) {
 
 switch (strtolower($_SERVER['REQUEST_METHOD']) . ':' . $paths[0]) {
     case 'get:bookmark':
-        if ($id) {
-            json_response(execSQL("SELECT bookmark.id, bookmark.name, bookmark.url, tag.name AS tag FROM bookmark JOIN tag ON bookmark.id = tag.bid WHERE bookmark.id = $id"), StatusCodes::HTTP_OK);
-        } else {
-            json_response(execSQL('SELECT bookmark.id, bookmark.name, bookmark.url, tag.name AS tag FROM bookmark JOIN tag ON bookmark.id = tag.bid'), StatusCodes::HTTP_OK);
-        }
+        json_response(getBookmark($id), StatusCodes::HTTP_OK);
         break;
     case 'post:bookmark':
         // Request Body 取得

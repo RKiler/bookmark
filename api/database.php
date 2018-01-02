@@ -38,3 +38,28 @@ function updateBookmark($id, $name, $url, $tag)
     $tag_db = $db->prepare('UPDATE bookmark SET name = :name, url = :url WHERE id = :id');
 
 }
+
+/**
+ * ブックマーク一覧を取得
+ * @param $id int ブックマークid
+ * @return array すべてのブックマークもしくは指定したidのブックマーク
+ */
+function getBookmark($id)
+{
+    $q = "SELECT * FROM bookmark";
+
+    $data = execSQL($q);
+
+    if ($id) {
+        $data = execSQL($q . " WHERE bookmark.id = $id");
+    }
+
+    $resp = [];
+
+    foreach ($data as $row) {
+        $tags = array_column(execSQL("SELECT name FROM tag WHERE bid = " . $row['id']), 'name');
+        $resp[] = $row + array("tags" => $tags);
+    }
+
+    return $resp;
+}
