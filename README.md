@@ -1,3 +1,10 @@
-# Webコミュニケーション
+# Bookmark PHP
 
-H29年度Webコミュニケーションのコード
+PHPでかんたんなAPIとAjaxを感じるホームページ
+
+## 必要なもの
+- Docker
+- Docker Compose
+
+## 使い方
+

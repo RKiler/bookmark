@@ -2,7 +2,7 @@ version: '3'
 services:
   php:
     build: .
-    container_name: webcom-php
+    container_name: bookmark
     ports:
       - 80:80
     volumes:
@@ -11,9 +11,9 @@ services:
     depends_on:
       - db
 
-  db:
+  database:
     image: mysql:8
-    container_name: webcom-db
+    container_name: bookmark-db
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
