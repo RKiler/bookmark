@@ -7,13 +7,13 @@ services:
       - 80:80
     volumes:
       - .:/var/www/html
-    hostname: webcom
+    hostname: bookmark
     depends_on:
-      - db
+      - database
 
   database:
     image: mysql:8
-    container_name: bookmark-db
+    container_name: bookmark-database
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
