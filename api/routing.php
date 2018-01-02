@@ -16,18 +16,21 @@ if ($raw_id != null && !$id) {
 switch (strtolower($_SERVER['REQUEST_METHOD']) . ':' . $paths[0]) {
     case 'get:bookmark':
         if ($id) {
-            json_response(execSQL("SELECT * FROM bookmark WHERE id=$id"), StatusCodes::HTTP_OK);
+            json_response(execSQL("SELECT bookmark.id, bookmark.name, bookmark.url, tag.name AS tag FROM bookmark JOIN tag ON bookmark.id = tag.bid WHERE bookmark.id = $id"), StatusCodes::HTTP_OK);
         } else {
-            json_response(execSQL('SELECT * FROM bookmark'), StatusCodes::HTTP_OK);
+            json_response(execSQL('SELECT bookmark.id, bookmark.name, bookmark.url, tag.name AS tag FROM bookmark JOIN tag ON bookmark.id = tag.bid'), StatusCodes::HTTP_OK);
         }
         break;
     case 'post:bookmark':
         // Request Body 取得
-        insertBookmark(json_decode(file_get_contents('php://input')));
+        $body = json_decode(file_get_contents('php://input'));
+        insertBookmark($body->name, $body->url, $body->tags);
 
         break;
     case 'put:bookmark':
-        updateBookmark($id, json_decode(file_get_contents('php://input')));
+        $body = json_decode(file_get_contents('php://input'));
+        updateBookmark($id, $body->name, $body->url, $body->tags);
+
         break;
     case 'delete:bookmark':
         if (empty(execSQL("SELECT * FROM bookmark WHERE id=$id"))) {

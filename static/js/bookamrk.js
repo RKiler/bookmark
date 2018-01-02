@@ -7,9 +7,9 @@ $(function () {
 
     $('#submit').click(function (e) {
         if ($('#submit').val() === 'update') {
-            editBookmark(id, $('#name').val(), $('#url').val());
+            editBookmark(id, $('#name').val(), $('#url').val(), $('#tags').val());
         } else {
-            postBookmark($('#name').val(), $('#url').val());
+            postBookmark($('#name').val(), $('#url').val(), $('#tags').val());
         }
         return e.preventDefault();
     });
@@ -35,7 +35,7 @@ function deleteBookmark(id) {
         });
 }
 
-function editBookmark(id, name, url) {
+function editBookmark(id, name, url, tags) {
 
     // Request (2) (PUT http://localhost/api/bookmark/:id)
 
@@ -47,13 +47,15 @@ function editBookmark(id, name, url) {
         },
         data: JSON.stringify({
             "name": name,
-            "url": url
+            "url": url,
+            "tags": tags
         })
     })
         .done(function (data, textStatus, jqXHR) {
             console.log("HTTP Request Succeeded: " + jqXHR.status);
             $('#name').val("");
             $('#url').val("");
+            $('#tags').val("");
             $('#submit').val("add");
             loadBookmark();
         })
@@ -62,7 +64,7 @@ function editBookmark(id, name, url) {
         })
 }
 
-function postBookmark(name, url) {
+function postBookmark(name, url, tags) {
     // Request (POST http://localhost/api/bookmark/)
 
     $.ajax({
@@ -71,13 +73,15 @@ function postBookmark(name, url) {
         contentType: "application/json",
         data: JSON.stringify({
             "name": name,
-            "url": url
+            "url": url,
+            "tags": tags
         })
     })
         .done(function (data, textStatus, jqXHR) {
             console.log("HTTP Request Succeeded: " + jqXHR.status);
             $('#name').val("");
             $('#url').val("");
+            $('#tags').val("");
             loadBookmark();
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
@@ -98,7 +102,7 @@ function loadBookmark() {
                     '<td class="id">' + bookmark['id'] + '</td>' +
                     '<td class="name">' + bookmark['name'] + '</td>' +
                     '<td class="url"><a href="' + bookmark['url'] + '">' + bookmark['url'] + '</a></td>' +
-                    '<td>tags</td>' +
+                    '<td>' + bookmark['tag'] + '</td>' +
                     '<td class="actions">' +
                     '<button class="edit button button-clear" data-id="' + bookmark['id'] + '"><i class="material-icons">edit</i></button>' +
                     '<button class="delete button button-clear" data-id="' + bookmark['id'] + '"><i class="material-icons icon-delete">clear</i></button></td>' +
