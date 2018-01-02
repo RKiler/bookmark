@@ -1,0 +1,26 @@
+nav {
+    border-bottom: inset 1px #2b3642;
+}
+
+.sticky {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    border-top: 0;
+}
+
+.actions {
+    width: 10.7rem;
+}
+
+.icon-delete {
+    color: orangered;
+}
+
+.edit, .delete {
+    line-height: 0;
+    padding: 0 1rem;
+    margin: 0;
+}
