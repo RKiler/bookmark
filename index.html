@@ -19,11 +19,22 @@
     <div class="nav">
         <form>
             <fieldset>
-                <label for="name">Name</label>
-                <input placeholder="e.g. Google" id="name" type="text">
+                <div class="row">
+                    <div class="column column-50">
+                        <label for="name">Name</label>
+                        <input placeholder="e.g. Dribbble" id="name" type="text">
+                    </div>
+                    <div class="column column-50">
+                        <label for="tags">Tags</label>
+                        <input placeholder="e.g. design, ui" id="tags" type="text">
+                    </div>
+                </div>
                 <label for="url">URL</label>
-                <input placeholder="e.g. https://google.com" id="url" type="text">
+                <input placeholder="e.g. https://dribbble.com/" id="url" type="text">
                 <input id="submit" class="button-primary" value="Add" type="submit">
+                <div class="float-right">
+                    <input id="clear" class="button-outline" value="clear" type="button">
+                </div>
             </fieldset>
         </form>
     </div>

@@ -13,6 +13,13 @@ $(function () {
         return e.preventDefault();
     });
 
+    $('#clear').click(function (e) {
+        $('#name').val("");
+        $('#url').val("");
+        $('#tags').val("");
+        $('#submit').val("add");
+        return e.preventDefault();
+    });
 });
 
 function deleteBookmark(id) {
