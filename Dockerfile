@@ -1,3 +1,4 @@
 FROM php:7-apache
 
-RUN docker-php-ext-install pdo_mysql mysqli mbstring
+RUN docker-php-ext-install pdo_mysql mysqli mbstring \
+    && a2enmod rewrite
