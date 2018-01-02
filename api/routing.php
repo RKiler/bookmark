@@ -8,7 +8,7 @@ $raw_id = isset($paths[1]) ? htmlspecialchars($paths[1]) : null;
 
 // bookmark id バリデーション
 $id = filter_var($raw_id, FILTER_VALIDATE_INT);
-if ($raw_id != null && $id == false) {
+if ($raw_id != null && !$id) {
     http_response_code(StatusCodes::HTTP_BAD_REQUEST);
     return;
 }
@@ -23,11 +23,11 @@ switch (strtolower($_SERVER['REQUEST_METHOD']) . ':' . $paths[0]) {
         break;
     case 'post:bookmark':
         // Request Body 取得
-        json_response(file_get_contents('php://input'), StatusCodes::HTTP_OK);
+        insertBookmark(json_decode(file_get_contents('php://input')));
+
         break;
     case 'put:bookmark':
-        // Request Body 取得
-        json_response(file_get_contents('php://input'), StatusCodes::HTTP_OK);
+        updateBookmark($id, json_decode(file_get_contents('php://input')));
         break;
     case 'delete:bookmark':
         if (empty(execSQL("SELECT * FROM bookmark WHERE id=$id"))) {

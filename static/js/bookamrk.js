@@ -1,15 +1,95 @@
+var id = 0;
+
 $(function () {
+
+    loadBookmark();
+
+    $('#submit').click(function (e) {
+        if ($('#submit').val() === 'update') {
+            editBookmark(id, $('#name').val(), $('#url').val());
+        } else {
+            postBookmark($('#name').val(), $('#url').val());
+        }
+        return e.preventDefault();
+    });
+
+});
+
+function deleteBookmark(id) {
+    // Request (2) (DELETE http://localhost/api/bookmark/:id)
+
+    $.ajax({url: "http://localhost/api/bookmark/" + id, type: "DELETE"})
+        .done(function (data, textStatus, jqXHR) {
+            $("tr[data-id=" + id + "]").remove();
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            console.log("HTTP Request Failed");
+        });
+}
+
+function editBookmark(id, name, url) {
+
+    // Request (2) (PUT http://localhost/api/bookmark/:id)
+
+    jQuery.ajax({
+        url: "http://localhost/api/bookmark/" + id,
+        type: "PUT",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8"
+        },
+        data: JSON.stringify({
+            "name": name,
+            "url": url
+        })
+    })
+        .done(function (data, textStatus, jqXHR) {
+            console.log("HTTP Request Succeeded: " + jqXHR.status);
+            $('#name').val("");
+            $('#url').val("");
+            $('#submit').val("add");
+            loadBookmark();
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            console.log("HTTP Request Failed");
+        })
+}
+
+function postBookmark(name, url) {
+    // Request (POST http://localhost/api/bookmark/)
+
+    $.ajax({
+        url: "http://localhost/api/bookmark/",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({
+            "name": name,
+            "url": url
+        })
+    })
+        .done(function (data, textStatus, jqXHR) {
+            console.log("HTTP Request Succeeded: " + jqXHR.status);
+            $('#name').val("");
+            $('#url').val("");
+            loadBookmark();
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            console.log("HTTP Request Failed");
+        });
+}
+
+function loadBookmark() {
     // Request (GET http://localhost/api/bookmark/)
 
     $.ajax({url: "//localhost/api/bookmark/", type: "GET"})
         .done(function (data, textStatus, jqXHR) {
+            $('#bookmark-table tbody').empty();
             console.log("HTTP Request Succeeded: " + jqXHR.status);
             var table = '';
             data.forEach(function (bookmark) {
                 table += '<tr data-id="' + bookmark['id'] + '" data-href="' + bookmark['url'] + '">' +
-                    '<td>' + bookmark['id'] + '</td>' +
-                    '<td>' + bookmark['name'] + '</td>' +
-                    '<td>' + bookmark['url'] + '</td>' +
+                    '<td class="id">' + bookmark['id'] + '</td>' +
+                    '<td class="name">' + bookmark['name'] + '</td>' +
+                    '<td class="url"><a href="' + bookmark['url'] + '">' + bookmark['url'] + '</a></td>' +
                     '<td>tags</td>' +
                     '<td class="actions">' +
                     '<button class="edit button button-clear" data-id="' + bookmark['id'] + '"><i class="material-icons">edit</i></button>' +
@@ -27,22 +107,10 @@ $(function () {
             });
 
             $(".edit").on('click', function () {
-                var id = $(this).data('id');
+                id = $(this).data('id');
+                $('#name').val($("tr[data-id=" + id + "] .name").text());
+                $('#url').val($("tr[data-id=" + id + "] .url a").text());
+                $('#submit').val('update');
             });
-        });
-});
-
-function deleteBookmark(id) {
-    // Request (2) (DELETE http://localhost/api/bookmark/:id)
-
-    jQuery.ajax({
-        url: "http://localhost/api/bookmark/" + id,
-        type: "DELETE"
-    })
-        .done(function (data, textStatus, jqXHR) {
-            $("#bookmark-table tbody tr[data-id=" + id + "]").remove();
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            console.log("HTTP Request Failed");
         });
 }

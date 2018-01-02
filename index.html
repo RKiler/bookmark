@@ -14,9 +14,19 @@
     <title>My Bookmarks</title>
 </head>
 <body>
-<div class="container">
+<div class="container box">
 
-    
+    <div class="nav">
+        <form>
+            <fieldset>
+                <label for="name">Name</label>
+                <input placeholder="e.g. Google" id="name" type="text">
+                <label for="url">URL</label>
+                <input placeholder="e.g. https://google.com" id="url" type="text">
+                <input id="submit" class="button-primary" value="Add" type="submit">
+            </fieldset>
+        </form>
+    </div>
 
     <table id="bookmark-table">
         <thead>
