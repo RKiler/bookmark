@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2018 ayatk. licensed under the MIT License.
+ */
+
 var id = 0;
 var baseURL = "http://localhost/api/bookmark/";
 

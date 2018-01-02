@@ -1,4 +1,12 @@
 <?php
+/**
+ * Copyright (c) 2018 ayatk. licensed under the MIT License.
+ *
+ * Created by PhpStorm.
+ * User: ayatk
+ * Date: 2018/01/03
+ * Time: 1:27
+ */
 
 $db = new PDO('mysql:host=database;dbname=default;charset=utf8', 'default', 'secret');
 
