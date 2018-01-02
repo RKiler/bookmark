@@ -1,4 +1,5 @@
 var id = 0;
+var baseURL = "http://localhost/api/bookmark/";
 
 $(function () {
 
@@ -25,7 +26,7 @@ $(function () {
 function deleteBookmark(id) {
     // Request (2) (DELETE http://localhost/api/bookmark/:id)
 
-    $.ajax({url: "http://localhost/api/bookmark/" + id, type: "DELETE"})
+    $.ajax({url: baseURL + id, type: "DELETE"})
         .done(function (data, textStatus, jqXHR) {
             $("tr[data-id=" + id + "]").remove();
         })
@@ -38,8 +39,8 @@ function editBookmark(id, name, url) {
 
     // Request (2) (PUT http://localhost/api/bookmark/:id)
 
-    jQuery.ajax({
-        url: "http://localhost/api/bookmark/" + id,
+    $.ajax({
+        url: baseURL + id,
         type: "PUT",
         headers: {
             "Content-Type": "application/json; charset=utf-8"
@@ -65,7 +66,7 @@ function postBookmark(name, url) {
     // Request (POST http://localhost/api/bookmark/)
 
     $.ajax({
-        url: "http://localhost/api/bookmark/",
+        url: baseURL,
         type: "POST",
         contentType: "application/json",
         data: JSON.stringify({
@@ -87,7 +88,7 @@ function postBookmark(name, url) {
 function loadBookmark() {
     // Request (GET http://localhost/api/bookmark/)
 
-    $.ajax({url: "//localhost/api/bookmark/", type: "GET"})
+    $.ajax({url: baseURL, type: "GET"})
         .done(function (data, textStatus, jqXHR) {
             $('#bookmark-table tbody').empty();
             console.log("HTTP Request Succeeded: " + jqXHR.status);
