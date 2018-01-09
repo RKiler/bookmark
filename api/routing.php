@@ -47,6 +47,9 @@ switch (strtolower($_SERVER['REQUEST_METHOD']) . ':' . $paths[0]) {
             json_response(array("message" => "Delete successful"), $code);
         }
         break;
+    case 'get:count':
+        $calc = (int)execSQL("SELECT count(*) FROM bookmark")[0]['count(*)'] + (int)execSQL("SELECT count(*) FROM tag")[0]['count(*)'];
+        json_response(array("count" => $calc), StatusCodes::HTTP_OK);
 }
 
 function json_response($obj, $code)
