@@ -86,3 +86,14 @@ function getBookmark($id)
 
     return $resp;
 }
+
+function deleteBookamrk(int $id)
+{
+    if (empty(execSQL("SELECT * FROM bookmark WHERE id = $id"))) {
+        return StatusCodes::HTTP_NOT_FOUND;
+    } else {
+        execSQL("DELETE FROM bookmark WHERE id = $id");
+        execSQL("DELETE FROM tag WHERE id = $id");   
+        return StatusCodes::HTTP_OK;
+    }
+}

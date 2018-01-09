@@ -38,14 +38,8 @@ switch (strtolower($_SERVER['REQUEST_METHOD']) . ':' . $paths[0]) {
 
         break;
     case 'delete:bookmark':
-        if (empty(execSQL("SELECT * FROM bookmark WHERE id=$id"))) {
-            $code = StatusCodes::HTTP_NOT_FOUND;
-            json_response(array("message" => StatusCodes::getMessageForCode($code)), $code);
-        } else {
-            execSQL("DELETE FROM bookmark WHERE id=$id");
-            $code = StatusCodes::HTTP_OK;
-            json_response(array("message" => "Delete successful"), $code);
-        }
+        $code = deleteBookamrk($id);
+        json_response(array("message" => StatusCodes::getMessageForCode($code)), $code);
         break;
     case 'get:count':
         $calc = (int)execSQL("SELECT count(*) FROM bookmark")[0]['count(*)'] + (int)execSQL("SELECT count(*) FROM tag")[0]['count(*)'];
