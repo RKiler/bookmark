@@ -52,7 +52,7 @@ function editBookmark(id, name, url, tags) {
         data: JSON.stringify({
             "name": name,
             "url": url,
-            "tags": tags
+            "tags": tags.split(/,\s?/)
         })
     })
         .done(function (data, textStatus, jqXHR) {
@@ -78,7 +78,7 @@ function postBookmark(name, url, tags) {
         data: JSON.stringify({
             "name": name,
             "url": url,
-            "tags": tags
+            "tags": tags.split(/,\s?/)
         })
     })
         .done(function (data, textStatus, jqXHR) {
@@ -106,7 +106,7 @@ function loadBookmark() {
                     '<td class="id">' + bookmark['id'] + '</td>' +
                     '<td class="name">' + bookmark['name'] + '</td>' +
                     '<td class="url"><a href="' + bookmark['url'] + '">' + bookmark['url'] + '</a></td>' +
-                    '<td>' + bookmark['tag'] + '</td>' +
+                    '<td class="tags">' + bookmark['tags'].join(', ') + '</td>' +
                     '<td class="actions">' +
                     '<button class="edit button button-clear" data-id="' + bookmark['id'] + '"><i class="material-icons">edit</i></button>' +
                     '<button class="delete button button-clear" data-id="' + bookmark['id'] + '"><i class="material-icons icon-delete">clear</i></button></td>' +
@@ -126,6 +126,7 @@ function loadBookmark() {
                 id = $(this).data('id');
                 $('#name').val($("tr[data-id=" + id + "] .name").text());
                 $('#url').val($("tr[data-id=" + id + "] .url a").text());
+                $('#tags').val($("tr[data-id=" + id + "] .tags").text());
                 $('#submit').val('update');
             });
         });
