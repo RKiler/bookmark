@@ -26,7 +26,8 @@
 }
 
 .box {
-    height: 100vh;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
     display: flex;
     flex-direction: column;
 }
