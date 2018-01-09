@@ -54,8 +54,12 @@ function updateBookmark($id, $name, $url, $tags)
 {
     global $db;
 
-    $bookmark_db = $db->prepare('UPDATE bookmark SET name = :name, url = :url WHERE id = :id');
-    $bookmark_db->execute(array(':id' => $id, ':name' => $name, ':url' => $url, ':tag' => $tags));
+    execSQL("UPDATE bookmark SET name = $name, url = $url WHERE id = $id");
+    
+    $update_tags = $db->prepare('UPDATE tag SET name = :name WHERE id = :id');
+    foreach ($tags as $tag) {
+        $bookmark_db->execute(array(':name' => $tag));
+    }
 }
 
 /**
