@@ -10,6 +10,11 @@
 
 $db = new PDO('mysql:host=database;dbname=default;charset=utf8', 'default', 'secret');
 
+/**
+ * 生SQLを実行
+ * @param $query string SQLのクエリ
+ * @return array
+ */
 function execSQL($query)
 {
     global $db;
@@ -17,6 +22,12 @@ function execSQL($query)
     return $db->query($query)->fetchAll(PDO::FETCH_ASSOC);
 }
 
+/**
+ * ブックマークを登録
+ * @param $name [string] bookmark name
+ * @param $url [string] Bookmark url
+ * @param $tags ArrayObject[string] Bookmark tags
+ */
 function insertBookmark($name, $url, $tags)
 {
     global $db;
@@ -32,6 +43,13 @@ function insertBookmark($name, $url, $tags)
     }
 }
 
+/**
+ * ブックマークのアップデートするSQLを実行
+ * @param $id
+ * @param $name
+ * @param $url
+ * @param $tags
+ */
 function updateBookmark($id, $name, $url, $tags)
 {
     global $db;
