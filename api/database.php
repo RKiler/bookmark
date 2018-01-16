@@ -33,6 +33,9 @@ function insertBookmark($name, $url, $tags)
     global $db;
 
     $stmt = $db->prepare('INSERT INTO bookmark VALUES (NULL ,:name ,:url)');
+    // 名前とURLのエスケープ処理
+    $name = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
+    $url = htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
     $stmt->execute(array(':name' => $name, ':url' => $url));
 
     $id = execSQL('SELECT id FROM bookmark ORDER BY id DESC LIMIT 1');
@@ -54,11 +57,14 @@ function updateBookmark($id, $name, $url, $tags)
 {
     global $db;
 
+    $name = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
+    $url = htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
+
     execSQL("UPDATE bookmark SET name = $name, url = $url WHERE id = $id");
     
     $update_tags = $db->prepare('UPDATE tag SET name = :name WHERE id = :id');
     foreach ($tags as $tag) {
-        $bookmark_db->execute(array(':name' => $tag));
+        $bookmark_db->execute(array(':name' => htmlspecialchars($tag, ENT_QUOTES, 'UTF-8')));
     }
 }
 
