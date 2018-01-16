@@ -24,7 +24,7 @@ if ($raw_id != null && !$id) {
 
 switch (strtolower($_SERVER['REQUEST_METHOD']) . ':' . $paths[0]) {
     case 'get:bookmark':
-        json_response(getBookmark($id), StatusCodes::HTTP_OK);
+        jsonResponse(getBookmark($id), StatusCodes::HTTP_OK);
         break;
     case 'post:bookmark':
         // Request Body 取得
@@ -39,14 +39,14 @@ switch (strtolower($_SERVER['REQUEST_METHOD']) . ':' . $paths[0]) {
         break;
     case 'delete:bookmark':
         $code = deleteBookamrk($id);
-        json_response(array("message" => StatusCodes::getMessageForCode($code)), $code);
+        jsonResponse(array("message" => StatusCodes::getMessageForCode($code)), $code);
         break;
     case 'get:count':
         $calc = (int)execSQL("SELECT count(*) FROM bookmark")[0]['count(*)'] + (int)execSQL("SELECT count(*) FROM tag")[0]['count(*)'];
-        json_response(array("count" => $calc), StatusCodes::HTTP_OK);
+        jsonResponse(array("count" => $calc), StatusCodes::HTTP_OK);
 }
 
-function json_response($obj, $code)
+function jsonResponse($obj, $code)
 {
     http_response_code($code);
     header("Content-Type: application/json; charset=utf-8");
